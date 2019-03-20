@@ -35,6 +35,7 @@
 #contents {
   height: 300px;
   margin-top: 20px;
+  overflow-y: visible;
 }
 #submitBtn {
   width: 100%;

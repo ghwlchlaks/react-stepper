@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Stepper from 'react-stepper-horizontal';
-import { Button, Form, FormGroup, Label, Input, Container, Jumbotron } from 'reactstrap';
+import { Button, Row, Form, FormGroup, Label, Input, Container, Jumbotron, ListGroup, ListGroupItem  } from 'reactstrap';
 import DatePicker from 'react-datepicker';
 
 class App extends Component {
@@ -32,6 +32,8 @@ class App extends Component {
         return;
       case 2:
         this.nextStep();
+        return;
+      default:
         return;
     }
   }
@@ -92,9 +94,11 @@ class App extends Component {
       <div>
         <Container>
           <Stepper steps={ [{title: '본인 인증'}, {title: '이용가능한 날짜'}, {title: '스타일'}, {title: '최종확인'}] } activeStep={ this.state.currentStep } />
-            <div id='contents'>
-              {this.renderSteps()}
-            </div>
+            
+              <Container id='contents' >
+                {this.renderSteps()}
+              </Container>
+            
           <Button id='submitBtn' color="info" onClick={this.nextStepClickHandler}>다음</Button>
         </Container>
       </div>
@@ -119,24 +123,65 @@ class Step2 extends Component {
     super(props);
 
     this.state ={
-      startDate: new Date()
+      startDate: new Date(),
+      selectedDate: []
     }
 
-    this.handleChange = this.handleChange.bind(this)
+    this.handleChange = this.handleChange.bind(this);
+    this.onDismiss = this.onDismiss.bind(this);
   }
+
   handleChange(date) {
     this.setState({
-      startDate: date
+      startDate: date,
+      selectedDate: [...this.state.selectedDate, date]
     })
   }
 
+  onDismiss(e) {
+    const index = e.target.name;
+    const selectedDate = this.state.selectedDate
+    console.log(selectedDate)
+    console.log(selectedDate.slice(0, index+1))
+    console.log(selectedDate.slice(index+2))
+    //console.log(selectedDate.slice(0, index).concat(selectedDate.slice(index+1, selectedDate.length)))
+    //console.log(selectedDate.slice(index+1, selectedDate.length + 1))
+    // this.setState({
+    //   selectedDate: selectedDate.slice(0, index).concat(selectedDate.slice(index+1))
+    // })
+  }
+
   render() {
+    const selectedDateList = dates => {
+      return dates.map((date, index) => {
+        return (
+          <ListGroupItem  color="warning" key={index}>
+            <Row>{date.toString()}</Row>
+            <Row><Button name={index} onClick={this.onDismiss}>삭제</Button></Row>
+          </ListGroupItem >
+        )
+      })
+    }
+
     return (
       <div>
+        <Row>
+        <Label>날짜를 선택해주세요.</Label>
+        </Row>
+        <Row>
         <DatePicker
           selected={this.state.startDate}
           onChange={this.handleChange}
         />
+        </Row>
+        <Row>
+        <Label>추가된 리스트의 삭제 버튼을 누르시면 삭제할 수 있습니다.</Label>
+        </Row>
+        <Row>
+        <ListGroup >
+          {selectedDateList(this.state.selectedDate)}
+        </ListGroup>
+        </Row>
       </div>
     )
   }
