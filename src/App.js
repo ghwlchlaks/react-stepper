@@ -130,6 +130,10 @@ class App extends Component {
     })
   }
 
+  componentDidMount() {
+    
+  }
+
   render() {
     if (this.state.isStart) {
       return (
@@ -157,6 +161,10 @@ class App extends Component {
 
             <Button onClick={this.startClickHandler} color="primary">Learn More</Button>
         </Jumbotron>
+
+        <a id="kakao-link-btn" href="javascript:;">
+          <img src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"/>
+        </a>
       </div>
       )
     }
