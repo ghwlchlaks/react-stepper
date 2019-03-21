@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, './../public')));
 
-app.use('/api/kakako', kakaoRoute);
+app.use('/api/kakao', kakaoRoute);
 
 app.listen(PORT, () => {
   console.log('Express is listening on port', PORT);
