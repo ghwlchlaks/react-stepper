@@ -1,0 +1,7 @@
+export const DATA_POST = 'DATA_POST'
+export const DATA_POST_SUCCESS = 'DATA_POST_SUCCESS'
+export const DATA_POST_FAILURE = 'DATA_POST_FAILURE'
+
+export const DATA_GET = 'DATA_GET'
+export const DATA_GET_SUCCESS = 'DATA_GET_SUCCESS'
+export const DATA_GET_FAILURE = 'DATA_GET_FAILURE'
