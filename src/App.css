@@ -33,10 +33,18 @@
 }
 
 #contents {
-  height: 300px;
   margin-top: 20px;
-  overflow-y: visible;
+  margin-bottom: 20px;
 }
 #submitBtn {
   width: 100%;
+}
+#dateListGroup {
+  height: 300px;
+  width: 100%;
+  overflow: auto;
+}
+
+#data {
+  text-align: center;
 }

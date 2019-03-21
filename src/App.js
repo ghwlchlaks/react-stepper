@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Stepper from 'react-stepper-horizontal';
-import { Button, Row, Form, FormGroup, Label, Input, Container, Jumbotron, ListGroup, ListGroupItem  } from 'reactstrap';
+import { Button, Row, Col, Form, FormGroup, Label, Input, Container, Jumbotron, ListGroup, ListGroupItem  } from 'reactstrap';
 import DatePicker from 'react-datepicker';
 
 class App extends Component {
@@ -150,10 +150,22 @@ class Step2 extends Component {
   render() {
     const selectedDateList = dates => {
       return dates.map((date, index) => {
+        const words = date.toString().split(' ').slice(0, 4)
+        let sentence = '';
+
+        for (let i =0; i< words.length; i++) {
+          sentence += words[i] + ' ';
+        }
         return (
           <ListGroupItem  color="warning" key={index}>
-            <Row>{date.toString()}</Row>
-            <Row><Button name={index} onClick={this.onDismiss}>삭제</Button></Row>
+            <Row id='data'>
+              <Col>
+                {sentence}
+              </Col>
+              <Col>
+                <Button name={index} onClick={this.onDismiss}>삭제</Button>
+              </Col>
+            </Row>
           </ListGroupItem >
         )
       })
@@ -162,22 +174,29 @@ class Step2 extends Component {
     return (
       <div>
         <Row>
-        <Label>날짜를 선택해주세요.</Label>
-        </Row>
-        <Row>
-        <DatePicker
-          inline
-          selected={this.state.startDate}
-          onChange={this.handleChange}
-        />
-        </Row>
-        <Row>
-        <Label>추가된 리스트의 삭제 버튼을 누르시면 삭제할 수 있습니다.</Label>
-        </Row>
-        <Row>
-        <ListGroup >
-          {selectedDateList(this.state.selectedDate)}
-        </ListGroup>
+          <Col md='4'>
+            <Row>
+              <Label>날짜를 선택해주세요.</Label>
+            </Row>
+            <Row>
+            <DatePicker
+              id='datepicker'
+              inline
+              selected={this.state.startDate}
+              onChange={this.handleChange}
+            />
+            </Row>
+           </Col>
+           <Col md='8'>
+            <Row>
+            <Label>추가된 리스트의 삭제 버튼을 누르시면 삭제할 수 있습니다.</Label>
+            </Row>
+            <Row >
+            <ListGroup id='dateListGroup'>
+              {selectedDateList(this.state.selectedDate)}
+            </ListGroup>
+            </Row>
+            </Col>
         </Row>
       </div>
     )
