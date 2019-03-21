@@ -132,10 +132,21 @@ class Step2 extends Component {
   }
 
   handleChange(date) {
-    this.setState({
-      startDate: date,
-      selectedDate: [...this.state.selectedDate, date]
-    })
+    const slice_date = date.toString().split(' ').slice(0, 4);
+    let sentence = '';
+
+    for (let i=0; i< slice_date.length; i++) {
+      sentence += slice_date[i] + ' ';
+    }
+
+    if (this.state.selectedDate.indexOf(sentence) === -1) {
+      this.setState({
+        startDate: date,
+        selectedDate: [...this.state.selectedDate, sentence]
+      })
+    } else {
+      return;
+    }
   }
 
   onDismiss(e) {
@@ -150,17 +161,11 @@ class Step2 extends Component {
   render() {
     const selectedDateList = dates => {
       return dates.map((date, index) => {
-        const words = date.toString().split(' ').slice(0, 4)
-        let sentence = '';
-
-        for (let i =0; i< words.length; i++) {
-          sentence += words[i] + ' ';
-        }
         return (
           <ListGroupItem  color="warning" key={index}>
             <Row id='data'>
               <Col>
-                {sentence}
+                {date}
               </Col>
               <Col>
                 <Button name={index} onClick={this.onDismiss}>삭제</Button>
