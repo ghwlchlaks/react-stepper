@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Stepper from 'react-stepper-horizontal';
-import { Button, Row, Col, Form, FormGroup, Label, Input, Container, Jumbotron, ListGroup, ListGroupItem  } from 'reactstrap';
+import { Button, Row, Col, Form, FormGroup, Label, Input, Container, Jumbotron, ListGroup, ListGroupItem, Card, CardText, CardTitle } from 'reactstrap';
 import DatePicker from 'react-datepicker';
 
 class App extends Component {
@@ -9,6 +9,7 @@ class App extends Component {
     super(props);
 
     this.state = {
+      confirmRadio: 'option2',
       isStart: true,
       currentStep : 0,
 
@@ -17,6 +18,7 @@ class App extends Component {
       selectedDate: []
     }
     this.startClickHandler = this.startClickHandler.bind(this)
+    this.mainRadioChangeHandler = this.mainRadioChangeHandler.bind(this);
     this.nextStepClickHandler = this.nextStepClickHandler.bind(this);
     
     //step1
@@ -107,14 +109,24 @@ class App extends Component {
         return <Step2 handleChange={this.handleChange} onDismiss={this.onDismiss} selectedDate={this.state.selectedDate} />;
       case 2: 
         return <Step3 />;
+      case 3:
+        return <Step4 selectedDate={this.state.selectedDate}/>;
       default: 
         return null;
     }
   }
 
   startClickHandler() {
+    if (this.state.confirmRadio === 'option1') {
+      this.setState({
+        isStart: false
+      })
+    }
+  }
+
+  mainRadioChangeHandler(e) {
     this.setState({
-      isStart: false
+      confirmRadio: e.target.value
     })
   }
 
@@ -127,9 +139,23 @@ class App extends Component {
           <p className="lead">This is a simple hero unit, a simple Jumbotron-style component for calling extra attention to featured content or information.</p>
           <hr className="my-2" />
           <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-          <p className="lead">
+         
+          <Form>
+            <FormGroup check>
+              <Label check>
+                <Input type="radio" checked={this.state.confirmRadio === 'option1'} name="confirmRadio" value='option1' onChange={this.mainRadioChangeHandler} />{' '}
+                승낙
+              </Label>
+            </FormGroup>
+            <FormGroup check>
+              <Label check>
+                <Input type="radio" checked={this.state.confirmRadio === 'option2'} name="confirmRadio" value='option2' onChange={this.mainRadioChangeHandler} />{' '}
+                거절 
+              </Label>
+            </FormGroup>
+          </Form>
+
             <Button onClick={this.startClickHandler} color="primary">Learn More</Button>
-          </p>
         </Jumbotron>
       </div>
       )
@@ -239,6 +265,18 @@ class Step3 extends Component {
           </Label>
         </FormGroup>
       </Form>
+    )
+  }
+}
+
+class Step4 extends Component {
+  render() {
+    return (
+      <Card body inverse style={{ backgroundColor: '#333', borderColor: '#333' }}>
+        <CardTitle>내용을 확인하시고 제출을 클릭하세요!</CardTitle>
+        <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
+        <Button>제출</Button>
+      </Card>
     )
   }
 }
