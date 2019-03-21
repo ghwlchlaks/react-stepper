@@ -11,11 +11,20 @@ class App extends Component {
     this.state = {
       isStart: true,
       currentStep : 0,
-      date: ''
+
+      // step 2
+      date: '',
+      selectedDate: []
     }
     this.startClickHandler = this.startClickHandler.bind(this)
     this.nextStepClickHandler = this.nextStepClickHandler.bind(this);
+    
+    //step1
     this.changeDate = this.changeDate.bind(this);
+
+    // step2
+    this.handleChange = this.handleChange.bind(this);
+    this.onDismiss = this.onDismiss.bind(this);
   }
 
   nextStepClickHandler() {
@@ -28,7 +37,11 @@ class App extends Component {
         }
         return;
       case 1:
-        this.nextStep()
+        if (this.dateListCheck()) {
+          this.nextStep()
+        } else {
+          alert('한 개 이상 선택하셔야합니다.')
+        }
         return;
       case 2:
         this.nextStep();
@@ -54,12 +67,44 @@ class App extends Component {
     })
   }
 
+  // step 2
+  dateListCheck() {
+    return (this.state.selectedDate.length > 0)
+  }
+  
+  handleChange(date) {
+    const slice_date = date.toString().split(' ').slice(0, 4);
+    let sentence = '';
+
+    for (let i=0; i< slice_date.length; i++) {
+      sentence += slice_date[i] + ' ';
+    }
+
+    if (this.state.selectedDate.indexOf(sentence) === -1) {
+      this.setState({
+        startDate: date,
+        selectedDate: [...this.state.selectedDate, sentence]
+      })
+    } else {
+      return;
+    }
+  }
+
+  onDismiss(e) {
+    const index = +e.target.name;
+    const selectedDate = this.state.selectedDate
+
+    this.setState({
+      selectedDate: selectedDate.slice(0, index).concat(selectedDate.slice(index+1))
+    })
+  }
+
   renderSteps() {
     switch(this.state.currentStep) {
       case 0:
         return <Step1 changeDate={this.changeDate} />;
       case 1:
-        return <Step2 />;
+        return <Step2 handleChange={this.handleChange} onDismiss={this.onDismiss} selectedDate={this.state.selectedDate} />;
       case 2: 
         return <Step3 />;
       default: 
@@ -124,38 +169,7 @@ class Step2 extends Component {
 
     this.state ={
       startDate: new Date(),
-      selectedDate: []
     }
-
-    this.handleChange = this.handleChange.bind(this);
-    this.onDismiss = this.onDismiss.bind(this);
-  }
-
-  handleChange(date) {
-    const slice_date = date.toString().split(' ').slice(0, 4);
-    let sentence = '';
-
-    for (let i=0; i< slice_date.length; i++) {
-      sentence += slice_date[i] + ' ';
-    }
-
-    if (this.state.selectedDate.indexOf(sentence) === -1) {
-      this.setState({
-        startDate: date,
-        selectedDate: [...this.state.selectedDate, sentence]
-      })
-    } else {
-      return;
-    }
-  }
-
-  onDismiss(e) {
-    const index = +e.target.name;
-    const selectedDate = this.state.selectedDate
-
-    this.setState({
-      selectedDate: selectedDate.slice(0, index).concat(selectedDate.slice(index+1))
-    })
   }
 
   render() {
@@ -168,7 +182,7 @@ class Step2 extends Component {
                 {date}
               </Col>
               <Col>
-                <Button name={index} onClick={this.onDismiss}>삭제</Button>
+                <Button name={index} onClick={this.props.onDismiss}>삭제</Button>
               </Col>
             </Row>
           </ListGroupItem >
@@ -188,7 +202,7 @@ class Step2 extends Component {
               id='datepicker'
               inline
               selected={this.state.startDate}
-              onChange={this.handleChange}
+              onChange={this.props.handleChange}
             />
             </Row>
            </Col>
@@ -198,7 +212,7 @@ class Step2 extends Component {
             </Row>
             <Row >
             <ListGroup id='dateListGroup'>
-              {selectedDateList(this.state.selectedDate)}
+              {selectedDateList(this.props.selectedDate)}
             </ListGroup>
             </Row>
             </Col>
