@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.3.1",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.19",
+    "morgan": "^1.9.1",
     "react": "^16.8.4",
     "react-datepicker": "^2.2.0",
     "react-dom": "^16.8.4",
