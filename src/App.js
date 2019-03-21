@@ -139,16 +139,12 @@ class Step2 extends Component {
   }
 
   onDismiss(e) {
-    const index = e.target.name;
+    const index = +e.target.name;
     const selectedDate = this.state.selectedDate
-    console.log(selectedDate)
-    console.log(selectedDate.slice(0, index+1))
-    console.log(selectedDate.slice(index+2))
-    //console.log(selectedDate.slice(0, index).concat(selectedDate.slice(index+1, selectedDate.length)))
-    //console.log(selectedDate.slice(index+1, selectedDate.length + 1))
-    // this.setState({
-    //   selectedDate: selectedDate.slice(0, index).concat(selectedDate.slice(index+1))
-    // })
+
+    this.setState({
+      selectedDate: selectedDate.slice(0, index).concat(selectedDate.slice(index+1))
+    })
   }
 
   render() {
@@ -170,6 +166,7 @@ class Step2 extends Component {
         </Row>
         <Row>
         <DatePicker
+          inline
           selected={this.state.startDate}
           onChange={this.handleChange}
         />
