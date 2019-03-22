@@ -9,7 +9,7 @@ const initialState = {
   },
   get: {
     status: 'INIT',
-    message: {},
+    data: {},
     error: -1
   }
 }
@@ -54,7 +54,7 @@ export default function message(state, action) {
       return update(state, {
         get: {
           status: {$set: 'SUCCESS'},
-          message: {$set: action.data}
+          data: {$set: action.data}
         }
       })
     case types.DATA_GET_FAILURE:
