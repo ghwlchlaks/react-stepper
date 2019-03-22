@@ -9,12 +9,17 @@ import {Provider} from 'react-redux';
 import reducers from './reducers';
 import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
+import { BrowserRouter as Router, Route} from 'react-router-dom'
+import View from './View';
 
 const store = createStore(reducers, applyMiddleware(thunk))
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <Router>
+            <Route exact path='/' component={App} />
+            <Route path='/view' component={View} />
+        </Router>
     </Provider>
     , document.getElementById('root'));
 
