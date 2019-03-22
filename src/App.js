@@ -5,7 +5,7 @@ import { Button, Row, Col, Form, FormGroup, Label, Input, Container, Jumbotron, 
 import DatePicker from 'react-datepicker';
 import {data} from './data/data';
 import { connect } from 'react-redux';
-import { dataGetRequest, dataPostRequest } from './actions/message';
+import { dataPostRequest } from './actions/message';
 
 class App extends Component {
   constructor(props) {
@@ -149,7 +149,10 @@ class App extends Component {
        * status: 'SUCCESS, FAILURE, WAITING, INIT.. '
        * }
        */
-      console.log('push dataclick handler callback console.log ',this.props.postData)
+      // console.log('push dataclick handler callback console.log ',this.props.postData)
+      if (this.props.postData.status === 'SUCCESS') {
+        this.props.history.push(`/view/${this.props.postData.id}`)
+      }
     })
   }
 
@@ -312,9 +315,6 @@ const mapDispatchToProps = dispatch => {
   return {
     dataPostRequest: (allData) => {
       return dispatch(dataPostRequest(allData))
-    },
-    dataGetRequest: (id) => {
-      return dispatch(dataGetRequest(id))
     }
   }
 }

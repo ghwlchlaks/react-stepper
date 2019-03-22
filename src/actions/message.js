@@ -41,10 +41,10 @@ export function dataGetRequest(id) {
 
     return axios.get(`/api/kakao/view?id=${id}`)
     .then((response) => {
-      console.log('data get request', response.data)
       dispatch(dataGetSuccess(response.data))
     }).catch((error) => {
-      dispatch(dataGetFailure(error.data.code))
+      console.log('error ' , error)
+      dispatch(dataGetFailure(error))
     })
   }
 }
@@ -55,14 +55,16 @@ export function dataGet() {
   }
 }
 
-export function dataGetSuccess() {
+export function dataGetSuccess(data) {
   return {
-    type: DATA_GET_SUCCESS
+    type: DATA_GET_SUCCESS,
+    data
   }
 }
 
-export function dataGetFailure() {
+export function dataGetFailure(error) {
   return {
-    type: DATA_GET_FAILURE
+    type: DATA_GET_FAILURE,
+    error
   }
 }

@@ -51,11 +51,10 @@ export default function message(state, action) {
         }
       })
     case types.DATA_GET_SUCCESS:
-      console.log('data get success reducers', action)
       return update(state, {
         get: {
           status: {$set: 'SUCCESS'},
-          message: Object.assign({}, action.data)
+          message: {$set: action.data}
         }
       })
     case types.DATA_GET_FAILURE:
