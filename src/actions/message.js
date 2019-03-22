@@ -7,7 +7,7 @@ export function dataPostRequest(allData) {
 
     return axios.post('/api/kakao/save', {allData})
     .then((response) => {
-      console.log('datapost request', response)
+      // console.log('datapost request', response.data)
       dispatch(dataPostSuccess(response.data));
     }).catch((error) => {
       dispatch(dataPostFailure(error.response.data.code));
@@ -21,15 +21,17 @@ export function dataPost() {
   }
 }
 
-export function dataPostSuccess() {
+export function dataPostSuccess(data) {
   return {
-    type: DATA_POST_SUCCESS
+    type: DATA_POST_SUCCESS,
+    data
   }
 }
 
-export function dataPostFailure() {
+export function dataPostFailure(error) {
   return {
-    type: DATA_POST_FAILURE
+    type: DATA_POST_FAILURE,
+    error
   }
 }
 
@@ -42,7 +44,7 @@ export function dataGetRequest(id) {
       console.log('data get request', response.data)
       dispatch(dataGetSuccess(response.data))
     }).catch((error) => {
-      dispatch(dataGetFailure(response.error.data.code))
+      dispatch(dataGetFailure(error.data.code))
     })
   }
 }

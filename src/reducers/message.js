@@ -19,7 +19,7 @@ export default function message(state, action) {
     state = initialState
   }
 
-  switch (actions.type) {
+  switch (action.type) {
     case types.DATA_POST:
       return update(state, {
         post: {
@@ -29,7 +29,7 @@ export default function message(state, action) {
         }
       })
     case types.DATA_POST_SUCCESS:
-      console.log('data post success reducers', action)
+      // console.log('data post success reducers', action.id)
       return update(state, {
         post: {
           status: {$set: 'SUCCESS'},

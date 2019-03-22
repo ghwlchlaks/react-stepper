@@ -3,6 +3,9 @@ import './App.css';
 import Stepper from 'react-stepper-horizontal';
 import { Button, Row, Col, Form, FormGroup, Label, Input, Container, Jumbotron, ListGroup, ListGroupItem, Card, CardText, CardTitle } from 'reactstrap';
 import DatePicker from 'react-datepicker';
+import {data} from './data/data';
+import { connect } from 'react-redux';
+import { dataGetRequest, dataPostRequest } from './actions/message';
 
 class App extends Component {
   constructor(props) {
@@ -17,6 +20,8 @@ class App extends Component {
       date: '',
       selectedDate: []
     }
+    this.pushDataClickHandler = this.pushDataClickHandler.bind(this)
+
     this.startClickHandler = this.startClickHandler.bind(this)
     this.mainRadioChangeHandler = this.mainRadioChangeHandler.bind(this);
     this.nextStepClickHandler = this.nextStepClickHandler.bind(this);
@@ -134,6 +139,20 @@ class App extends Component {
     
   }
 
+  pushDataClickHandler() {
+    this.props.dataPostRequest(data.allData)
+    .then(() => {
+      /**
+       * this.props.postData = {
+       * error : -1
+       * id : '~~'
+       * status: 'SUCCESS, FAILURE, WAITING, INIT.. '
+       * }
+       */
+      console.log('push dataclick handler callback console.log ',this.props.postData)
+    })
+  }
+
   render() {
     if (this.state.isStart) {
       return (
@@ -158,7 +177,7 @@ class App extends Component {
               </Label>
             </FormGroup>
           </Form>
-
+            <Button onClick={this.pushDataClickHandler}>data push</Button>
             <Button onClick={this.startClickHandler} color="primary">Learn More</Button>
         </Jumbotron>
 
@@ -288,4 +307,24 @@ class Step4 extends Component {
     )
   }
 }
-export default App;
+
+const mapDispatchToProps = dispatch => {
+  return {
+    dataPostRequest: (allData) => {
+      return dispatch(dataPostRequest(allData))
+    },
+    dataGetRequest: (id) => {
+      return dispatch(dataGetRequest(id))
+    }
+  }
+}
+const mapStateToProps = state => { 
+  // console.log(state.message.post)
+  return {
+    postData: state.message.post
+  }
+}
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
